@@ -3,6 +3,7 @@
 @{
 
     ViewBag.Title = "Registro de Rutinas";
+    @Styles.Render("~/Content/Rutina.css")
 
 }
 
@@ -14,58 +15,152 @@
     @Html.AntiForgeryToken()
 
     <body>
-<div class="form-horizontal">
+        <div class="form-horizontal">
 
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="container">
-    <div class="form-group">
-        <div class="col-md-10">
-            @Html.Label("Seleccione el Atleta", new { @class = "control-label" })
-            <select name="atletaSeleccionado">
-                @foreach (var entity in (SelectList)ViewBag.Atletas)
-                {
-                    <option value="@entity.Value">
-                        @Html.Label(entity.Text, new { @class = "control-label" })
-                    </option>
-                }
-            </select>
-        </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                @Html.Label("Fecha de la Rutina", new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-                    @Html.EditorFor(model => model.RutinaFecha, new { htmlAttributes = new { @class = "form-control", type = "date" } })
-                    @Html.ValidationMessageFor(model => model.RutinaFecha, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="container">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.Label("Seleccione el Atleta", new { @class = "control-label" })
+                        <select name="atletaSeleccionado">
+                            @foreach (var entity in (SelectList)ViewBag.Atletas)
+                            {
+                                <option value="@entity.Value">
+                                    @Html.Label(entity.Text, new { @class = "control-label" })
+                                </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <div class="col-md-10">
+                        @Html.Label("Buscar Atleta/Funcionario", new { @class = "control-label" })
+                        <div class="input-group col-md-8">
+                            <span class="input-group-btn">
+                                <input class="form-control" type="text" id="cedulaF" />
+                                <button type="button" class="btn" id="buscarId">
+                                    <span class="glyphicon glyphicon-search"></span> Buscar
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-10">
+                    <table>
+                        <thead>INFORMACIÓN DE USUARIO</thead>
+                        <tr>
+                            <th>Cedula</th>
+                            <th>Nombre</th>
+                            <th>1° Apellido</th>
+                            <th>2° Apellido</th>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                    </table>
+
+                </div>
+
+                @*Hasta aquí el historial y la información del usuario*@
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.Label("Fecha de la Rutina", new { @class = "control-label" })
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                            @Html.EditorFor(model => model.RutinaFecha, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                            @Html.ValidationMessageFor(model => model.RutinaFecha, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.Label("Observaciones", new { @class = "control-label" })
+                        <div class="input-group">
+                            @Html.EditorFor(model => model.RutinaObservaciones, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RutinaObservaciones, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Crear Rutina" class="btn btn-default" />
                 </div>
             </div>
         </div>
+    </body>
+}
 
-        <div class="form-group">
-            <div class="col-md-10">
-                @Html.Label("Observaciones", new { @class = "control-label" })
-                <div class="input-group">
-                @Html.EditorFor(model => model.RutinaObservaciones, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RutinaObservaciones, "", new { @class = "text-danger" })
-            </div>
-                </div>
-        </div>
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Crear Rutina" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-        </body>
-    }
+<div>
+    @Html.ActionLink("Lista Rutinas", "Index")
+</div>
 
-    <div>
-        @Html.ActionLink("Lista Rutinas", "Index")
-    </div>
-
-   @section Scripts {
-
-
+@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script>
+        //Tabla de información de usuario
+        function UserTableInformation() {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/Rutinas/FindUser",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        events.push({
+                            citaId: v.CitaId,
+                            title: 'CITA',
+                            description1: v.InBody,
+                            description2: v.Otro,
+                            cedula: v.UsuarioCedula,
+                            nombre: v.UsuarioNombre,
+                            apellido1: v.UsuarioApellido1,
+                            apellido2: v.UsuarioApellido2,
+                            start: $.fullCalendar.moment(v.FechaHoraInicio),
+                            end: $.fullCalendar.moment(v.FechaHoraFinal)
+                        });
+                    })
+                    GenerateCalendar(events);
+                },
+                error: function (error) {
+                    alert("Fallo");
+                }
+            })
+        }
+        //Botón de búsqueda de usuario
+        $('#buscarId').click(function () {
+            var id = $('#cedulaF').val().trim();
+            FindUser(id);
+        })
+        //Enviando la cédula al controller para buscar el usuario.
+        function FindUser(data) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/Rutinas/FindUser',
+                data: data,
+                success: function (data) {
+                    if (data.status) {
+                        $.each(data, function (i, v) {
+                            var $tr = $('<tr>').append(
+                                $('<td>').text(item.Name)
+                            ); //.appendTo('#records_table');
+                            console.log($tr.wrap('<p>').html());
+                        });
+                    }
+                },
+                error: function () {
+                    alert("No existe en el registro");
+                }
+            })
+        }
+
+
+    </script>
+    
+
 
 }

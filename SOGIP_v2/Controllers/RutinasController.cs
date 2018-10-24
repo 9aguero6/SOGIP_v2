@@ -35,6 +35,14 @@ namespace SOGIP_v2.Controllers
             return View(rutina);
         }
 
+        //Busar el usuario por cédula. NO ME SIRVIÓ
+        [HttpPost]
+        public JsonResult FindUser(string cedula)
+        {
+            var User = db.Roles.Single(x => x.Name == "Administrador");
+            return new JsonResult {Data=User, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
         public ActionResult Create()
         {
             var getAtletas = db.Users.ToList();
@@ -54,37 +62,45 @@ namespace SOGIP_v2.Controllers
 
         }
         [HttpPost]
-        public ActionResult Ejercicio(string data, Conjunto_Ejercicio ejercicio)
+        public JsonResult Ejercicio(List<Conjunto_Ejercicio> ejercicios) //AGREGAR EL ID DE LA RUTINA
         {
-
-       
+            var status = false;
+            //Busco el id de la rutina.
+            string data = "2";
             int d = int.Parse(data);
             Rutina rutina = new Rutina();
-             rutina = db.Rutinas.Single(x => x.RutinaId == d);
+            rutina = db.Rutinas.Single(x => x.RutinaId == d);
+
+            //Asigno ejercicios a la rutina
             if (rutina != null)
             {
-                Conjunto_Ejercicio conjunto = new Conjunto_Ejercicio()
+                for(int i=0; i<ejercicios.Count; i++)
                 {
-                    ConjuntoEjercicioRutina = rutina,
-                    NombreEjercicio = ejercicio.NombreEjercicio,
-                    Serie1 = ejercicio.Serie1,
-                    Repeticion1 = ejercicio.Repeticion1,
-                    Peso1 = ejercicio.Peso1,
-                    Serie2 = ejercicio.Serie2,
-                    Repeticion2 = ejercicio.Repeticion2,
-                    Peso2 = ejercicio.Peso2,
-                    Serie3 = ejercicio.Serie3,
-                    Repeticion3 = ejercicio.Repeticion3,
-                    Peso3 = ejercicio.Peso3
-                };
-                db.Conjunto_Ejercicios.Add(conjunto);
+                    Conjunto_Ejercicio conjunto = new Conjunto_Ejercicio()
+                    {
+                        ConjuntoEjercicioRutina = rutina,
+                        NombreEjercicio = ejercicios[i].NombreEjercicio,
+                        Serie1 = ejercicios[i].Serie1,
+                        Repeticion1 = ejercicios[i].Repeticion1,
+                        Peso1 = ejercicios[i].Peso1,
+                        Serie2 = ejercicios[i].Serie2,
+                        Repeticion2 = ejercicios[i].Repeticion2,
+                        Peso2 = ejercicios[i].Peso2,
+                        Serie3 = ejercicios[i].Serie3,
+                        Repeticion3 = ejercicios[i].Repeticion3,
+                        Peso3 = ejercicios[i].Peso3
+                    };
+                    db.Conjunto_Ejercicios.Add(conjunto);
+                }
                 db.SaveChanges();
-                return RedirectToAction("Index");
 
+               
             }
-
-            return View(ejercicio);
+            return new JsonResult { Data = new { status = status } };
         }
+
+
+
         public ActionResult ListaEjercicio(int ? idRutina)
         {
             var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
