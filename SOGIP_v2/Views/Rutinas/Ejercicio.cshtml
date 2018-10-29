@@ -157,7 +157,7 @@
                 var newCell12 = newRow.insertCell(12);
 
                 var input1 = document.createElement("input");
-                input1.type = "text"; input1.min = 0;
+                input1.type = "text"; input1.min = 0; 
 
                 var input2 = document.createElement("input");
                 input2.type = "text"; input2.min = 0;
@@ -263,13 +263,6 @@
                     'data': @viewDataRutina,
                     'ejercicios': tableArr
                 }
-                @{
-                    string expresion, expresionNumerica;
-                    expresionNumerica = "^[0-9,+,=,/]+$";
-                    expresion = @"(^[a-zA-Z'.\s])";
-                    System.Text.RegularExpressions.Regex automata = new Regex(expresion);
-                    System.Text.RegularExpressions.Regex automataNumerico = new Regex(expresionNumerica);
-}
                 //function () {
                 //for (var i = 0; i < tableArr.length; i++){
                 //    if (tableArr[i].NombreEjercicio == null || !automata.IsMatch(tableArr[i].NombreEjercicio) ||

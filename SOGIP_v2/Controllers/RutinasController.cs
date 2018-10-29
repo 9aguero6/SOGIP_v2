@@ -160,7 +160,7 @@ namespace SOGIP_v2.Controllers
             Rutina rutina = new Rutina();
             rutina = db.Rutinas.Single(x => x.RutinaId == d);
             //Asigno ejercicios a la rutina
-            if (estaCorrecto(ejercicios) == true)
+            if (rutina != null && estaCorrecto(ejercicios) == true)
             {
                 //if (estaCorrecto(ejercicios) == true)
                 //{
