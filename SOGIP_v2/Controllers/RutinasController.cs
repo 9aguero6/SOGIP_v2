@@ -154,6 +154,7 @@ namespace SOGIP_v2.Controllers
         public JsonResult Ejercicio(string data, List<Conjunto_Ejercicio> ejercicios) //AGREGAR EL ID DE LA RUTINA
         {
             var status = false;
+      
             //Busco el id de la rutina.
             //int d = 5;
             int d = int.Parse(data);
@@ -162,8 +163,8 @@ namespace SOGIP_v2.Controllers
             //Asigno ejercicios a la rutina
             if (rutina != null && estaCorrecto(ejercicios) == true)
             {
-                //if (estaCorrecto(ejercicios) == true)
-                //{
+                if (estaCorrecto(ejercicios) == true)
+                {
 
                     for (int i = 0; i < ejercicios.Count; i++)
                     {
@@ -188,8 +189,8 @@ namespace SOGIP_v2.Controllers
                     db.SaveChanges();
                 }
                 return new JsonResult { Data = new { status = status } };
-            //}
-            //return new JsonResult { Data = new { status = status } };
+            }
+            return new JsonResult { Data = new { status = status } };
         }
 
         public ActionResult ListaEjercicio(int ? id, string idUsuario)

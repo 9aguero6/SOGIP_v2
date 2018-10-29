@@ -259,27 +259,27 @@
                     });
                 }
 
+                    //for (var i = 0; i < tableArr.length; i++) {
+                    //    if (tableArr[i].NombreEjercicio == null || !automata.IsMatch(tableArr[i].NombreEjercicio) ||
+                    //        tableArr[i].Serie1 == null || !automataNumerico.IsMatch(tableArr[i].Serie1) ||
+                    //        tableArr[i].Repeticion1 == null || !automataNumerico.IsMatch(tableArr[i].Repeticion1) ||
+                    //        tableArr[i].Peso1 == null || !automataNumerico.IsMatch(tableArr[i].Peso1) ||
+                    //        tableArr[i].Serie2 == null || !automataNumerico.IsMatch(tableArr[i].Serie2) ||
+                    //        tableArr[i].Repeticion2 == null || !automataNumerico.IsMatch(tableArr[i].Repeticion2) ||
+                    //        tableArr[i].Peso2 == null || !automataNumerico.IsMatch(tableArr[i].Peso2) ||
+                    //        tableArr[i].Serie3 == null || !automataNumerico.IsMatch(tableArr[i].Serie3) ||
+                    //        tableArr[i].Repeticion3 == null || !automataNumerico.IsMatch(tableArr[i].Repeticion3) ||
+                    //        tableArr[i].Peso3 == null || !automataNumerico.IsMatch(tableArr[i].Peso3) ||
+                    //        tableArr[i].ColorEjercicio == null || tableArr[i].diaEjercicio == null) {
+                    //        alert('Hubo un error');
+                    //    }
+                    //}
+
                 var datos = {
                     'data': @viewDataRutina,
                     'ejercicios': tableArr
                 }
-                //function () {
-                //for (var i = 0; i < tableArr.length; i++){
-                //    if (tableArr[i].NombreEjercicio == null || !automata.IsMatch(tableArr[i].NombreEjercicio) ||
-                //        tableArr[i].Serie1 == null || !automataNumerico.IsMatch(tableArr[i].Serie1) ||
-                //        tableArr[i].Repeticion1 == null || !automataNumerico.IsMatch(tableArr[i].Repeticion1) ||
-                //        tableArr[i].Peso1 == null || !automataNumerico.IsMatch(tableArr[i].Peso1) ||
-                //        tableArr[i].Serie2 == null || !automataNumerico.IsMatch(tableArr[i].Serie2) ||
-                //        tableArr[i].Repeticion2 == null || !automataNumerico.IsMatch(tableArr[i].Repeticion2) ||
-                //        tableArr[i].Peso2 == null || !automataNumerico.IsMatch(tableArr[i].Peso2) ||
-                //        tableArr[i].Serie3 == null || !automataNumerico.IsMatch(tableArr[i].Serie3) ||
-                //        tableArr[i].Repeticion3 == null || !automataNumerico.IsMatch(tableArr[i].Repeticion3) ||
-                //        tableArr[i].Peso3 == null || !automataNumerico.IsMatch(tableArr[i].Peso3) ||
-                //    tableArr[i].ColorEjercicio == null || tableArr[i].diaEjercicio == null) {
-                //            alert('Hubo un error');
-                //        }
-                //}
-                //}
+               
            
                 $.ajax({
                             url: '/Rutinas/Ejercicio',
@@ -301,11 +301,3 @@
         });
     </script>
 }
-
-
-    @*Regex reg = new Regex("^[a-zA-Z'.\s]{0,1000}$");
-                for (var i = 0; i < table.length; i++) {
-                    if (!reg.IsMatch(table.row[i]) && table.row[i]== null) {
-                        alert('Malo');
-                    }
-                }*@
