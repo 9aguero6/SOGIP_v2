@@ -205,11 +205,12 @@ namespace SOGIP_v2.Controllers
             }
             if(idUsuario != null)
             {
+
                 Rutina rutina = db.Rutinas.FirstOrDefault(x => x.Usuario.Id == idUsuario);
-                int i = rutina.RutinaId;
-                string n = i.ToString();
+                int rutinaID = rutina.RutinaId;
+                string n = rutinaID.ToString();
                 ViewData["rutina"] = n;
-                var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id).ToList();
+                var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == rutinaID).ToList();
                 ViewBag.Conjunto_Ejercicios = getEjercicio;
             }
             return View();
