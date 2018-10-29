@@ -124,23 +124,25 @@ namespace SOGIP_v2.Controllers
         public bool estaCorrecto(List<Conjunto_Ejercicio> ejercicios)
         {
 
-            string expresion, expresionNumerica;
+            string expresion, expresionNumerica,expresionPeso;
             expresionNumerica = "^[0-9,+,=,/]+$";
             expresion = @"(^[a-zA-Z'.\s])";
+            expresionPeso = "^[0-9,+,=,kg,ls,/]+$";
             System.Text.RegularExpressions.Regex automata = new Regex(expresion);
             System.Text.RegularExpressions.Regex automataNumerico = new Regex(expresionNumerica);
+            System.Text.RegularExpressions.Regex automataPeso = new Regex(expresionPeso);
             for (var i = 0; i < ejercicios.Count; i++)
             {
                 if (ejercicios[i].NombreEjercicio == null || !automata.IsMatch(ejercicios[i].NombreEjercicio)||
                     ejercicios[i].Serie1 == null || !automataNumerico.IsMatch(ejercicios[i].Serie1)||
                     ejercicios[i].Repeticion1 == null || !automataNumerico.IsMatch(ejercicios[i].Repeticion1) ||
-                    ejercicios[i].Peso1 == null || !automataNumerico.IsMatch(ejercicios[i].Peso1) ||
+                    ejercicios[i].Peso1 == null || !automataPeso.IsMatch(ejercicios[i].Peso1) ||
                     ejercicios[i].Serie2 == null || !automataNumerico.IsMatch(ejercicios[i].Serie2) ||
                     ejercicios[i].Repeticion2 == null || !automataNumerico.IsMatch(ejercicios[i].Repeticion2) ||
-                    ejercicios[i].Peso2 == null || !automataNumerico.IsMatch(ejercicios[i].Peso2) ||
+                    ejercicios[i].Peso2 == null || !automataPeso.IsMatch(ejercicios[i].Peso2) ||
                     ejercicios[i].Serie3 == null || !automataNumerico.IsMatch(ejercicios[i].Serie3) ||
                     ejercicios[i].Repeticion3 == null || !automataNumerico.IsMatch(ejercicios[i].Repeticion3) ||
-                   ejercicios[i].Peso3 == null || !automataNumerico.IsMatch(ejercicios[i].Peso3) ||
+                   ejercicios[i].Peso3 == null || !automataPeso.IsMatch(ejercicios[i].Peso3) ||
                     ejercicios[i].ColorEjercicio == null||ejercicios[i].diaEjercicio == null)
                 {
                     return false;
@@ -158,10 +160,10 @@ namespace SOGIP_v2.Controllers
             Rutina rutina = new Rutina();
             rutina = db.Rutinas.Single(x => x.RutinaId == d);
             //Asigno ejercicios a la rutina
-            if (rutina != null)
+            if (estaCorrecto(ejercicios) == true)
             {
-                if (estaCorrecto(ejercicios) == true)
-                {
+                //if (estaCorrecto(ejercicios) == true)
+                //{
 
                     for (int i = 0; i < ejercicios.Count; i++)
                     {
@@ -186,8 +188,8 @@ namespace SOGIP_v2.Controllers
                     db.SaveChanges();
                 }
                 return new JsonResult { Data = new { status = status } };
-            }
-            return new JsonResult { Data = new { status = status } };
+            //}
+            //return new JsonResult { Data = new { status = status } };
         }
 
         public ActionResult ListaEjercicio(int ? id, string idUsuario)

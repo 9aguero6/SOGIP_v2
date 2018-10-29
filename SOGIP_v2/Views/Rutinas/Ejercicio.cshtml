@@ -270,7 +270,7 @@
                     System.Text.RegularExpressions.Regex automata = new Regex(expresion);
                     System.Text.RegularExpressions.Regex automataNumerico = new Regex(expresionNumerica);
 }
-                //$(document).ready(function () {
+                //function () {
                 //for (var i = 0; i < tableArr.length; i++){
                 //    if (tableArr[i].NombreEjercicio == null || !automata.IsMatch(tableArr[i].NombreEjercicio) ||
                 //        tableArr[i].Serie1 == null || !automataNumerico.IsMatch(tableArr[i].Serie1) ||
@@ -286,13 +286,13 @@
                 //            alert('Hubo un error');
                 //        }
                 //}
-                //});
+                //}
            
-                        $.ajax({
+                $.ajax({
                             url: '/Rutinas/Ejercicio',
                             dataType: 'JSON',
                             type: 'POST',
-                            data: JSON.stringify(datos), //agregar el campo para el id de la rutina
+                            data: JSON.stringify(datos), 
                             contentType: 'application/json; charset=utf-8',
                             success: function (result) {
                                 alert('Ejercicios Registrados');
